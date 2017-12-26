@@ -1,0 +1,13 @@
+@import './../vars/vars.sss'
+
+
+body
+  display: flex
+  transition: color .4s linear
+  background-image: url('../../img/about-hero.jpeg')
+
+  & a
+    color: red
+
+p:matches(:first-child, .special)
+  color: $blue
