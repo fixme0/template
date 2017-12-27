@@ -11,6 +11,17 @@ const PATHS = {
   dist: path.resolve(__dirname, 'dist')
 }
 
+let postCssPlugins = [
+  require('postcss-partial-import')(),
+  require('postcss-nested')(),
+  require('postcss-simple-vars')(),
+  require('postcss-selector-matches')(),
+  require('autoprefixer')({browsers: 'last 15 versions'}),
+  require('postcss-inline-svg')(),
+  require('postcss-size')(),
+  require('postcss-position')()
+];
+
 let cssProd = ExtractTextPlugin.extract({
   fallback: 'style-loader',
   publicPath: '../',
@@ -18,7 +29,6 @@ let cssProd = ExtractTextPlugin.extract({
     { 
       loader: 'css-loader',
       options: {
-        sourceMap: true,
         minimize: true
       }
     },
@@ -26,15 +36,7 @@ let cssProd = ExtractTextPlugin.extract({
       loader: 'postcss-loader',
       options: {
         parser: 'sugarss',
-        plugins: [
-          require('postcss-partial-import')(),
-          require('postcss-nested')(),
-          require('postcss-simple-vars')(),
-          require('postcss-selector-matches')(),
-          require('autoprefixer')({browsers: 'last 15 versions'}),
-          require('postcss-inline-svg')()
-        ],
-        sourceMap: true
+        plugins: postCssPlugins
       }
     }
   ]
@@ -52,14 +54,7 @@ let cssDev = [
     loader: 'postcss-loader',
     options: {
       parser: 'sugarss',
-      plugins: [
-        require('postcss-partial-import')(),
-        require('postcss-nested')(),
-        require('postcss-simple-vars')(),
-        require('postcss-selector-matches')(),
-        require('autoprefixer')({browsers: 'last 15 versions'}),
-        require('postcss-inline-svg')()
-      ],
+      plugins: postCssPlugins,
       sourceMap: true
     }
   }
@@ -134,6 +129,19 @@ let config = {
               extract: true,
               spriteFilename: 'img/sprite.svg'
             } 
+          }
+        ]
+      },
+
+      {
+        test: /\.(eot|ttf|woff|woff2)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'fonts/[name].[ext]',
+              publicPath: '../',
+            }
           }
         ]
       }

@@ -1,4 +1,5 @@
 @import './../vars/vars.sss'
+@import './../utils/fonts.sss'
 
 
 @svg-load nav url('../../img/svg/zamok.svg')
@@ -7,10 +8,15 @@
 body
   display: flex
   transition: color .4s linear
-  // background-image: svg-load('../../img/svg/zamok.svg', fill=#000, stroke=#fff)
+  font-family: 'Helvetica-bold'
 
   & a
     color: red
 
 p:matches(:first-child, .special)
   color: $blue
+
+.body-img
+  size: 300px
+  position: absolute 50% 50%
+  transform: translate(-50%, -50%)
