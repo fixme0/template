@@ -1,10 +1,13 @@
 @import './../vars/vars.sss'
 
 
+@svg-load nav url('../../img/svg/zamok.svg')
+  stroke: red
+
 body
   display: flex
   transition: color .4s linear
-  background-image: url('../../img/about-hero.jpeg')
+  // background-image: svg-load('../../img/svg/zamok.svg', fill=#000, stroke=#fff)
 
   & a
     color: red

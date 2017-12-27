@@ -4,6 +4,7 @@ let CleanWebpackPlugin = require('clean-webpack-plugin');
 let webpack = require('webpack');
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
 let isProd = process.env.NODE_ENV == 'production';
+let SpriteLoaderPlugin = require('svg-sprite-loader/plugin');
 
 const PATHS = {
   src: path.resolve(__dirname, 'src'),
@@ -31,6 +32,7 @@ let cssProd = ExtractTextPlugin.extract({
           require('postcss-simple-vars')(),
           require('postcss-selector-matches')(),
           require('autoprefixer')({browsers: 'last 15 versions'}),
+          require('postcss-inline-svg')()
         ],
         sourceMap: true
       }
@@ -56,6 +58,7 @@ let cssDev = [
         require('postcss-simple-vars')(),
         require('postcss-selector-matches')(),
         require('autoprefixer')({browsers: 'last 15 versions'}),
+        require('postcss-inline-svg')()
       ],
       sourceMap: true
     }
@@ -84,6 +87,9 @@ let config = {
     }),
     new webpack.DefinePlugin({
       NODE_ENV: JSON.stringify(isProd)
+    }),
+    new SpriteLoaderPlugin({
+      plainSprite: true
     })
   ],
 
@@ -118,6 +124,19 @@ let config = {
           }
         ]
        },
+
+       {
+        test: /\.svg$/,
+        use: [
+          { 
+            loader: 'svg-sprite-loader', 
+            options: {
+              extract: true,
+              spriteFilename: 'img/sprite.svg'
+            } 
+          }
+        ]
+      }
 
     ]
   },
